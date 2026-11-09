@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfdmart"
+		},
+		"LS_SQLSERVER_password": {
+			"value": ""
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"value": "DESKTOP-VDI86GH\\SAFRAN"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"value": "dmart"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
+			"value": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
