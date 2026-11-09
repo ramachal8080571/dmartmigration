@@ -1,7 +1,0 @@
-{
-	"name": "integrationruntimedmart",
-	"properties": {
-		"type": "SelfHosted",
-		"description": " demart integration run time"
-	}
-}
