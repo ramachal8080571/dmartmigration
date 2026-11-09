@@ -1,0 +1,15 @@
+{
+	"name": "adfdmart",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5c055d82-a68f-4d4f-aec7-a0a0b25bec35",
+		"tenantId": "4a750873-b408-4af9-a66e-aa2322f6cee3"
+	}
+}
