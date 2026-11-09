@@ -1,0 +1,12 @@
+{
+	"name": "integrationRuntime1",
+	"properties": {
+		"type": "SelfHosted",
+		"typeProperties": {
+			"linkedInfo": {
+				"resourceId": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1",
+				"authorizationType": "Rbac"
+			}
+		}
+	}
+}
