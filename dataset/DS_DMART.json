@@ -1,0 +1,19 @@
+{
+	"name": "DS_DMART",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DMART1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "dmartdst"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
