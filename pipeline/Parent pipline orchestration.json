@@ -1,9 +1,9 @@
 {
-	"name": "PL_Lookup",
+	"name": "Parent pipline orchestration",
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup sql adf watermark",
+				"name": "Lookup sql table watermark DW",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -29,11 +29,11 @@
 				}
 			},
 			{
-				"name": "ForEach sql table",
+				"name": "ForEach SQL TABLE",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup sql adf watermark",
+						"activity": "Lookup sql table watermark DW",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -42,9 +42,27 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup sql adf watermark').output.value",
+						"value": "@activity('Lookup sql table watermark DW').output.value",
 						"type": "Expression"
-					}
+					},
+					"activities": [
+						{
+							"name": "Execute sql increamental",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "child pipe line increamental",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			}
 		],

@@ -1,0 +1,30 @@
+{
+	"name": "DS_LOOKUP_MAX_VAL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLSERVER",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableschema": {
+				"type": "string"
+			},
+			"tablename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().tableschema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().tablename",
+				"type": "Expression"
+			}
+		}
+	}
+}
