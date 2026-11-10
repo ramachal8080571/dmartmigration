@@ -109,7 +109,10 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "select TableSchema,\tTableName,\tWatermarkColumn,\tLastLoadValue\nfrom ADF_Watermark_Table",
+								"sqlReaderQuery": {
+									"value": "select TableSchema,\tTableName,\tWatermarkColumn,\tLastLoadValue\nfrom ADF_Watermark_Table",
+									"type": "Expression"
+								},
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -138,6 +141,7 @@
 								"value": "@activity('Lookup sql table watermark DW').output.value",
 								"type": "Expression"
 							},
+							"isSequential": false,
 							"activities": [
 								{
 									"name": "Execute sql increamental",
@@ -153,7 +157,24 @@
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
-										"parameters": {}
+										"parameters": {
+											"TableSchema": {
+												"value": "@item().TableSchema",
+												"type": "Expression"
+											},
+											"TableName": {
+												"value": "@item().TableName",
+												"type": "Expression"
+											},
+											"WatermarkColumn": {
+												"value": "@item().WatermarkColumn",
+												"type": "Expression"
+											},
+											"LastLoadValue": {
+												"value": "@item().LastLoadValue",
+												"type": "Expression"
+											}
+										}
 									}
 								}
 							]
@@ -203,11 +224,11 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"tableschema": {
-										"value": "@pipeline().parameters.tableschema",
+										"value": "@pipeline().parameters.TableSchema",
 										"type": "Expression"
 									},
 									"tablename": {
-										"value": "@pipeline().parameters.tablename",
+										"value": "@pipeline().parameters.TableName",
 										"type": "Expression"
 									}
 								}
@@ -320,13 +341,13 @@
 					"elapsedTimeMetric": {}
 				},
 				"parameters": {
-					"tableschema": {
+					"TableSchema": {
 						"type": "string"
 					},
-					"tablename": {
+					"TableName": {
 						"type": "string"
 					},
-					"watermarkcolumn": {
+					"WatermarkColumn": {
 						"type": "string"
 					},
 					"LastLoadValue": {
@@ -364,7 +385,6 @@
 							"storedProcedureName": "[[dbo].[UpdateWatermark]",
 							"storedProcedureParameters": {
 								"TableName": {
-									"value": "",
 									"type": "String"
 								},
 								"TableSchema": {
