@@ -7,9 +7,61 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfdmart"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"LS_CHECK_MAX_VAL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_CHECK_MAX_VAL'"
+		},
+		"LS_DMART1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_DMART1'"
+		},
+		"LS_LOOKUP_MAX_VAL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_LOOKUP_MAX_VAL'"
+		},
 		"LS_SQLSERVER_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
+		},
+		"LS_dmart_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LS_dmart'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-VDI86GH\\SAFRAN"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dmart"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"LS_DMART1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "DESKTOP-VDI86GH\\SAFRAN"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "dmart"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
@@ -22,6 +74,10 @@
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
+		},
+		"LS_dmart_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://itmsdst.dfs.core.windows.net/"
 		},
 		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
@@ -54,11 +110,53 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"LS_CHECK_MAX_VAL_password": {
+						"value": "[parameters('LS_CHECK_MAX_VAL_password')]"
+					},
+					"LS_DMART1_accountKey": {
+						"value": "[parameters('LS_DMART1_accountKey')]"
+					},
+					"LS_dmart_accountKey": {
+						"value": "[parameters('LS_dmart_accountKey')]"
+					},
+					"LS_LOOKUP_MAX_VAL_password": {
+						"value": "[parameters('LS_LOOKUP_MAX_VAL_password')]"
+					},
 					"LS_SQLSERVER_password": {
 						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"LS_CHECK_MAX_VAL_properties_typeProperties_server": {
+						"value": "[parameters('LS_CHECK_MAX_VAL_properties_typeProperties_server')]"
+					},
+					"LS_CHECK_MAX_VAL_properties_typeProperties_database": {
+						"value": "[parameters('LS_CHECK_MAX_VAL_properties_typeProperties_database')]"
+					},
+					"LS_CHECK_MAX_VAL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_CHECK_MAX_VAL_properties_typeProperties_userName')]"
+					},
+					"LS_DMART1_properties_typeProperties_url": {
+						"value": "[parameters('LS_DMART1_properties_typeProperties_url')]"
+					},
+					"LS_dmart_properties_typeProperties_url": {
+						"value": "[parameters('LS_dmart_properties_typeProperties_url')]"
+					},
 					"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 						"value": "[parameters('integrationRuntime2_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"LS_LOOKUP_MAX_VAL_properties_typeProperties_server": {
+						"value": "[parameters('LS_LOOKUP_MAX_VAL_properties_typeProperties_server')]"
+					},
+					"LS_LOOKUP_MAX_VAL_properties_typeProperties_database": {
+						"value": "[parameters('LS_LOOKUP_MAX_VAL_properties_typeProperties_database')]"
+					},
+					"LS_LOOKUP_MAX_VAL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_LOOKUP_MAX_VAL_properties_typeProperties_userName')]"
 					},
 					"LS_SQLSERVER_properties_typeProperties_server": {
 						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"

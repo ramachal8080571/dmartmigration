@@ -5,8 +5,47 @@
 		"factoryName": {
 			"value": "adfdmart"
 		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"LS_CHECK_MAX_VAL_password": {
+			"value": ""
+		},
+		"LS_DMART1_accountKey": {
+			"value": ""
+		},
+		"LS_LOOKUP_MAX_VAL_password": {
+			"value": ""
+		},
 		"LS_SQLSERVER_password": {
 			"value": ""
+		},
+		"LS_dmart_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_server": {
+			"value": "DESKTOP-VDI86GH\\SAFRAN"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_database": {
+			"value": "dmart"
+		},
+		"LS_CHECK_MAX_VAL_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"LS_DMART1_properties_typeProperties_url": {
+			"value": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_server": {
+			"value": "DESKTOP-VDI86GH\\SAFRAN"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_database": {
+			"value": "dmart"
+		},
+		"LS_LOOKUP_MAX_VAL_properties_typeProperties_userName": {
+			"value": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"value": "DESKTOP-VDI86GH\\SAFRAN"
@@ -16,6 +55,9 @@
 		},
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"value": "sa"
+		},
+		"LS_dmart_properties_typeProperties_url": {
+			"value": "https://itmsdst.dfs.core.windows.net/"
 		},
 		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 			"value": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1"
