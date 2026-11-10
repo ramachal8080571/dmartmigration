@@ -105,6 +105,29 @@
 									"type": "DatasetReference"
 								}
 							]
+						},
+						{
+							"name": "update watermark",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Copy full data in adls",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "update stored proc",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
 						}
 					]
 				}
