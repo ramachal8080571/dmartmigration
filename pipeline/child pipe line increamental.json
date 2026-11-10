@@ -29,11 +29,11 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"tableschema": {
-								"value": "@pipeline().parameters.tableschema",
+								"value": "@pipeline().parameters.TableSchema",
 								"type": "Expression"
 							},
 							"tablename": {
-								"value": "@pipeline().parameters.tablename",
+								"value": "@pipeline().parameters.TableName",
 								"type": "Expression"
 							}
 						}
@@ -140,13 +140,13 @@
 			}
 		],
 		"parameters": {
-			"tableschema": {
+			"TableSchema": {
 				"type": "string"
 			},
-			"tablename": {
+			"TableName": {
 				"type": "string"
 			},
-			"watermarkcolumn": {
+			"WatermarkColumn": {
 				"type": "string"
 			},
 			"LastLoadValue": {
