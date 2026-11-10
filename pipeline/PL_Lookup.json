@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "Lookup sql adf watermark",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -17,13 +17,15 @@
 				"typeProperties": {
 					"source": {
 						"type": "SqlServerSource",
+						"sqlReaderQuery": "select TableSchema,\tTableName,\tWatermarkColumn,\tLastLoadValue\nfrom ADF_Watermark_Table",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
 					"dataset": {
 						"referenceName": "DS_SQLSERVER",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
