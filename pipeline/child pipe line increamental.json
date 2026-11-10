@@ -23,7 +23,17 @@
 					},
 					"dataset": {
 						"referenceName": "DS_LOOKUP_MAX_VAL",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"tableschema": {
+								"value": "@pipeline().parameters.tableschema",
+								"type": "Expression"
+							},
+							"tablename": {
+								"value": "@pipeline().parameters.tablename",
+								"type": "Expression"
+							}
+						}
 					}
 				}
 			},
