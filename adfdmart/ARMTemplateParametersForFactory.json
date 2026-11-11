@@ -8,6 +8,9 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"DS_DMART_DST_F_accountKey": {
+			"value": ""
+		},
 		"LS_CHECK_MAX_VAL_password": {
 			"value": ""
 		},
@@ -23,10 +26,10 @@
 		"LS_dmart_accountKey": {
 			"value": ""
 		},
-		"DS_DMART_DST_F_accountKey": {
-			"value": ""
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"DS_DMART_DST_F_properties_typeProperties_url": {
 			"value": "https://sgdmart.dfs.core.windows.net/"
 		},
 		"LS_CHECK_MAX_VAL_properties_typeProperties_server": {
@@ -64,9 +67,6 @@
 		},
 		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 			"value": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1"
-		},
-		"DS_DMART_DST_F_properties_typeProperties_url": {
-			"value": "https://sgdmart.dfs.core.windows.net/"
 		}
 	}
 }

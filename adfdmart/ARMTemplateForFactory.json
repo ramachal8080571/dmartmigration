@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
 		},
+		"DS_DMART_DST_F_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DS_DMART_DST_F'"
+		},
 		"LS_CHECK_MAX_VAL_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_CHECK_MAX_VAL'"
@@ -31,11 +35,11 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_dmart'"
 		},
-		"DS_DMART_DST_F_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'DS_DMART_DST_F'"
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
+		},
+		"DS_DMART_DST_F_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
 		},
@@ -86,10 +90,6 @@
 		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1"
-		},
-		"DS_DMART_DST_F_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -103,7 +103,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup sql table watermark DW",
+						"name": "Lookup_sql_table_watermark_DW",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -137,7 +137,7 @@
 						"type": "ForEach",
 						"dependsOn": [
 							{
-								"activity": "Lookup sql table watermark DW",
+								"activity": "Lookup_sql_table_watermark_DW",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -146,7 +146,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@activity('Lookup sql table watermark DW').output.value",
+								"value": "@activity('Lookup_sql_table_watermark_DW').output.value",
 								"type": "Expression"
 							},
 							"isSequential": false,
@@ -262,7 +262,7 @@
 							},
 							"ifTrueActivities": [
 								{
-									"name": "Copy full data in adls",
+									"name": "Copy_full_data_in_adls",
 									"type": "Copy",
 									"dependsOn": [],
 									"policy": {
@@ -286,7 +286,8 @@
 										"sink": {
 											"type": "ParquetSink",
 											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
+												"type": "AzureBlobFSWriteSettings",
+												"copyBehavior": "FlattenHierarchy"
 											},
 											"formatSettings": {
 												"type": "ParquetWriteSettings"
@@ -304,16 +305,27 @@
 									},
 									"inputs": [
 										{
-											"referenceName": "DS_SQLSERVER",
+											"referenceName": "DS_LOOKUP_MAX_VAL",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"tableschema": {
+													"value": "@pipeline().parameters.TableSchema",
+													"type": "Expression"
+												},
+												"tablename": {
+													"value": "@pipeline().parameters.TableName",
+													"type": "Expression"
+												}
+											}
 										}
 									],
 									"outputs": [
 										{
 											"referenceName": "DS_DMART_DST_F",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"TableName": "@pipeline().parameters.TableName"
+											}
 										}
 									]
 								},
@@ -322,7 +334,7 @@
 									"type": "ExecutePipeline",
 									"dependsOn": [
 										{
-											"activity": "Copy full data in adls",
+											"activity": "Copy_full_data_in_adls",
 											"dependencyConditions": [
 												"Succeeded"
 											]
@@ -337,8 +349,21 @@
 											"referenceName": "update stored proc",
 											"type": "PipelineReference"
 										},
-										"waitOnCompletion": true,
-										"parameters": {}
+										"waitOnCompletion": false,
+										"parameters": {
+											"Tableschema": {
+												"value": "@pipeline().parameters.TableSchema",
+												"type": "Expression"
+											},
+											"Tablename": {
+												"value": "@pipeline().parameters.TableName",
+												"type": "Expression"
+											},
+											"watermarkcolumn": {
+												"value": "@pipeline().parameters.WatermarkColumn",
+												"type": "Expression"
+											}
+										}
 									}
 								}
 							]
@@ -366,7 +391,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_LOOKUP_MAX_VAL')]",
-				"[concat(variables('factoryId'), '/datasets/DS_SQLSERVER')]",
 				"[concat(variables('factoryId'), '/datasets/DS_DMART_DST_F')]",
 				"[concat(variables('factoryId'), '/pipelines/update stored proc')]"
 			]
@@ -482,6 +506,68 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DS_DMART_DST_F",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"TableName": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().TableName,'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'),'.parquet')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(dataset().TableName,'/',formatDateTime(utcNow(),'yyyy/MM/dd'))\n",
+							"type": "Expression"
+						},
+						"fileSystem": "dmartdst"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "DateKey",
+						"type": "INT32"
+					},
+					{
+						"name": "FullDate",
+						"type": "DATE"
+					},
+					{
+						"name": "Year",
+						"type": "INT32"
+					},
+					{
+						"name": "Quarter",
+						"type": "INT32"
+					},
+					{
+						"name": "Month",
+						"type": "INT32"
+					},
+					{
+						"name": "Day",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DS_DMART_DST_F')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_LOOKUP_MAX_VAL')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -546,6 +632,23 @@
 					"accountKey": {
 						"type": "SecureString",
 						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('DS_DMART_DST_F_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('DS_DMART_DST_F_accountKey')]"
 					}
 				}
 			},
@@ -677,72 +780,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('DS_DMART_DST_F_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('DS_DMART_DST_F_accountKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DS_DMART_DST_F",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "dmartdst"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": [
-					{
-						"name": "DateKey",
-						"type": "INT32"
-					},
-					{
-						"name": "FullDate",
-						"type": "DATE"
-					},
-					{
-						"name": "Year",
-						"type": "INT32"
-					},
-					{
-						"name": "Quarter",
-						"type": "INT32"
-					},
-					{
-						"name": "Month",
-						"type": "INT32"
-					},
-					{
-						"name": "Day",
-						"type": "INT32"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DS_DMART_DST_F')]"
-			]
 		}
 	]
 }
