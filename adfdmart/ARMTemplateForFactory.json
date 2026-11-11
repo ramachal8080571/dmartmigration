@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_dmart'"
 		},
+		"DS_DMART_DST_F_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DS_DMART_DST_F'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
@@ -82,6 +86,10 @@
 		"integrationRuntime2_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/b4778500-4c39-4ff9-8563-43d70d97782e/resourcegroups/rg_dev_apriso/providers/Microsoft.DataFactory/factories/adfdevapriso1/integrationruntimes/integrationRuntime1"
+		},
+		"DS_DMART_DST_F_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://sgdmart.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
@@ -303,7 +311,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "DS_DMART",
+											"referenceName": "DS_DMART_DST_F",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -359,7 +367,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_LOOKUP_MAX_VAL')]",
 				"[concat(variables('factoryId'), '/datasets/DS_SQLSERVER')]",
-				"[concat(variables('factoryId'), '/datasets/DS_DMART')]",
+				"[concat(variables('factoryId'), '/datasets/DS_DMART_DST_F')]",
 				"[concat(variables('factoryId'), '/pipelines/update stored proc')]"
 			]
 		},
@@ -442,11 +450,27 @@
 					"referenceName": "LS_DMART1",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"TableSchema": {
+						"type": "string"
+					},
+					"TableName": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Parquet",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().TableName,'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'),'.parquet')\n",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(dataset().TableName,'_',formatDateTime(utcNow(),'yyyyMMddHHmmss'),'.parquet')",
+							"type": "Expression"
+						},
 						"fileSystem": "dmartdst"
 					},
 					"compressionCodec": "snappy"
@@ -653,6 +677,72 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('DS_DMART_DST_F_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('DS_DMART_DST_F_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_DMART_DST_F')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DS_DMART_DST_F",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "dmartdst"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "DateKey",
+						"type": "INT32"
+					},
+					{
+						"name": "FullDate",
+						"type": "DATE"
+					},
+					{
+						"name": "Year",
+						"type": "INT32"
+					},
+					{
+						"name": "Quarter",
+						"type": "INT32"
+					},
+					{
+						"name": "Month",
+						"type": "INT32"
+					},
+					{
+						"name": "Day",
+						"type": "INT32"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DS_DMART_DST_F')]"
+			]
 		}
 	]
 }
