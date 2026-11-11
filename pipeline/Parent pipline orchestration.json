@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup sql table watermark DW",
+				"name": "Lookup_sql_table_watermark_DW",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -36,7 +36,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup sql table watermark DW",
+						"activity": "Lookup_sql_table_watermark_DW",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -45,7 +45,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup sql table watermark DW').output.value",
+						"value": "@activity('Lookup_sql_table_watermark_DW').output.value",
 						"type": "Expression"
 					},
 					"isSequential": false,
