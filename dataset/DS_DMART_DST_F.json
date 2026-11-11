@@ -1,0 +1,44 @@
+{
+	"name": "DS_DMART_DST_F",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DS_DMART_DST_F",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "dmartdst"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "DateKey",
+				"type": "INT32"
+			},
+			{
+				"name": "FullDate",
+				"type": "DATE"
+			},
+			{
+				"name": "Year",
+				"type": "INT32"
+			},
+			{
+				"name": "Quarter",
+				"type": "INT32"
+			},
+			{
+				"name": "Month",
+				"type": "INT32"
+			},
+			{
+				"name": "Day",
+				"type": "INT32"
+			}
+		]
+	}
+}

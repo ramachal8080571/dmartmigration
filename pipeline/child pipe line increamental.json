@@ -107,7 +107,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DS_DMART",
+									"referenceName": "DS_DMART_DST_F",
 									"type": "DatasetReference"
 								}
 							]
