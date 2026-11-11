@@ -83,7 +83,8 @@
 								"sink": {
 									"type": "ParquetSink",
 									"storeSettings": {
-										"type": "AzureBlobFSWriteSettings"
+										"type": "AzureBlobFSWriteSettings",
+										"copyBehavior": "FlattenHierarchy"
 									},
 									"formatSettings": {
 										"type": "ParquetWriteSettings"
@@ -118,7 +119,10 @@
 							"outputs": [
 								{
 									"referenceName": "DS_DMART_DST_F",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": "@pipeline().parameters.TableName"
+									}
 								}
 							]
 						},
